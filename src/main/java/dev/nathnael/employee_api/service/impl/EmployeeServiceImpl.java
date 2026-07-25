@@ -1,6 +1,7 @@
 package dev.nathnael.employee_api.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -56,6 +57,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee updatedEmployee = employeeRepository.save(employee);
 
         return EmployeeMapper.mapToEmployeeDto(updatedEmployee);
+    }
+
+    @Override
+    public void deleteEmployee(Long employeeId) {
+        
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
+
+        if(employee.isEmpty()) throw new ResourceNotFoundException("Employee does not exist with given id:" + employeeId);
+
+        employeeRepository.deleteById(employeeId);
     }
     
 }

@@ -10,7 +10,11 @@ public class EmployeeMapper {
             employee.getId(),
             employee.getFirstName(),
             employee.getLastName(),
-            employee.getEmail()
+            employee.getEmail(),
+            employee.getDepartment(),
+            employee.getJobTitle(),
+            employee.getSalary(),
+            employee.getHireDate()
         );
     }
 
@@ -19,7 +23,11 @@ public class EmployeeMapper {
             employeeDto.getId(),
             employeeDto.getFirstName(),
             employeeDto.getLastName(),
-            employeeDto.getEmail()
+            employeeDto.getEmail(),
+            employeeDto.getDepartment(),
+            employeeDto.getJobTitle(),
+            employeeDto.getSalary(),
+            employeeDto.getHireDate()
         );
     }
 }

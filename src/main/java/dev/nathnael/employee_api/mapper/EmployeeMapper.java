@@ -19,15 +19,16 @@ public class EmployeeMapper {
     }
 
     public static Employee mapToEmployee(EmployeeDto employeeDto) {
-        return new Employee(
-            employeeDto.getId(),
-            employeeDto.getFirstName(),
-            employeeDto.getLastName(),
-            employeeDto.getEmail(),
-            employeeDto.getDepartment(),
-            employeeDto.getJobTitle(),
-            employeeDto.getSalary(),
-            employeeDto.getHireDate()
-        );
+        Employee employee = new Employee();
+
+        employee.setFirstName(employeeDto.getFirstName());
+        employee.setLastName(employeeDto.getLastName());
+        employee.setEmail(employeeDto.getEmail());
+        employee.setDepartment(employeeDto.getDepartment());
+        employee.setJobTitle(employeeDto.getJobTitle());
+        employee.setSalary(employeeDto.getSalary());
+        employee.setHireDate(employeeDto.getHireDate());
+        
+        return employee;
     }
 }

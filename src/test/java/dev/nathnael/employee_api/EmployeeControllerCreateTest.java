@@ -14,7 +14,7 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import dev.nathnael.employee_api.dto.CreateEmployeeDto;
+import dev.nathnael.employee_api.entity.Employee;
 import dev.nathnael.employee_api.repository.EmployeeRepository;
 import tools.jackson.databind.ObjectMapper;
 
@@ -41,6 +41,8 @@ public class EmployeeControllerCreateTest {
 
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17-alpine");
 
+    Employee employee = new Employee();
+
     @BeforeAll
 	static void beforeAll() {
 		postgres.start();
@@ -53,6 +55,15 @@ public class EmployeeControllerCreateTest {
 
     @BeforeEach
     void setUp() {
+
+        employee.setFirstName("John");
+        employee.setLastName("Doe");
+        employee.setEmail("john@example.com");
+        employee.setDepartment("IT");
+        employee.setJobTitle("Developer");
+        employee.setSalary(new BigDecimal(75000));
+        employee.setHireDate(LocalDate.of(2025, 1, 1));
+
         employeeRepository.deleteAll();
     }
 
@@ -66,16 +77,6 @@ public class EmployeeControllerCreateTest {
     @Test
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void createEmployee_withValidData_shouldReturn201() throws Exception {
-
-        CreateEmployeeDto employee = new CreateEmployeeDto(
-            "John",
-            "Doe",
-            "john@example.com",
-            "IT",
-            "Software Engineer",
-            new BigDecimal(75000),
-            LocalDate.of(2026, 8, 14)
-        );
 
         mockMvc.perform(post("/api/employees")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -115,15 +116,7 @@ public class EmployeeControllerCreateTest {
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void createEmployee_withBlankFirstName_shouldReturn400() throws Exception {
 
-        CreateEmployeeDto employee = new CreateEmployeeDto(
-            "",
-            "Doe",
-            "john@example.com",
-            "IT",
-            "Software Engineer",
-            new BigDecimal(75000),
-            LocalDate.of(2026, 8, 14)
-        );
+        employee.setFirstName("");
 
         mockMvc.perform(post("/api/employees")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -137,15 +130,7 @@ public class EmployeeControllerCreateTest {
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void createEmployee_withLongLastName_shouldReturn400() throws Exception {
 
-        CreateEmployeeDto employee = new CreateEmployeeDto(
-            "John",
-            "FLbzcBeopyNqaZGYRnuObdgnTJrADhPiHfdyBBFKlVDAahtBvqcX",
-            "john@example.com",
-            "IT",
-            "Software Engineer",
-            new BigDecimal(75000),
-            LocalDate.of(2026, 8, 14)
-        );
+        employee.setLastName("FLbzcBeopyNqaZGYRnuObdgnTJrADhPiHfdyBBFKlVDAahtBvqcX");
 
         mockMvc.perform(post("/api/employees")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -159,16 +144,8 @@ public class EmployeeControllerCreateTest {
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void createEmployee_withInvalidEmail_shouldReturn400() throws Exception {
 
-        CreateEmployeeDto employee = new CreateEmployeeDto(
-            "John",
-            "Doe",
-            "not-an-email",
-            "IT",
-            "Software Engineer",
-            new BigDecimal(75000),
-            LocalDate.of(2026, 8, 14)
-        );
-
+        employee.setEmail("not-an-email");
+        
         mockMvc.perform(post("/api/employees")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(employee)))
@@ -181,15 +158,7 @@ public class EmployeeControllerCreateTest {
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void createEmployee_withNullSalary_shouldReturn400() throws Exception {
 
-        CreateEmployeeDto employee = new CreateEmployeeDto(
-            "John",
-            "Doe",
-            "john@example.com",
-            "IT",
-            "Software Engineer",
-            null,
-            LocalDate.of(2026, 8, 14)
-        );
+        employee.setSalary(null);
 
         mockMvc.perform(post("/api/employees")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -203,15 +172,7 @@ public class EmployeeControllerCreateTest {
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void createEmployee_withNegativeSalary_shouldReturn400() throws Exception {
 
-        CreateEmployeeDto employee = new CreateEmployeeDto(
-            "John",
-            "Doe",
-            "john@example.com",
-            "IT",
-            "Software Engineer",
-            new BigDecimal(-75000),
-            LocalDate.of(2026, 8, 14)
-        );
+        employee.setSalary(new BigDecimal(-75000));
 
         mockMvc.perform(post("/api/employees")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -225,15 +186,7 @@ public class EmployeeControllerCreateTest {
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
     void createEmployee_withInvalidHireDate_shouldReturn400() throws Exception {
 
-        CreateEmployeeDto employee = new CreateEmployeeDto(
-            "John",
-            "Doe",
-            "john@example.com",
-            "IT",
-            "Software Engineer",
-            new BigDecimal(75000),
-            LocalDate.of(2027, 3, 20)
-        );
+        employee.setHireDate(LocalDate.of(2027, 3, 20));
 
         mockMvc.perform(post("/api/employees")
                 .contentType(MediaType.APPLICATION_JSON)

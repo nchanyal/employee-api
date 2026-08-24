@@ -82,7 +82,7 @@ public class EmployeeControllerGetTest {
 
     @Test
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
-    void getEmployeeById_withNonExistentId_shouldReturn404() throws Exception {
+    void getEmployeeById_withNonexistentId_shouldReturn404() throws Exception {
         mockMvc.perform(get("/api/employees/999"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message")

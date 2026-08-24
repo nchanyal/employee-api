@@ -98,7 +98,7 @@ public class EmployeeControllerUpdateTest {
 
     @Test
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
-    void updateEmployee_withNonExistentId_shouldReturn404() throws Exception {
+    void updateEmployee_withNonexistentId_shouldReturn404() throws Exception {
 
         Employee employee = new Employee();
         employee.setFirstName("John");

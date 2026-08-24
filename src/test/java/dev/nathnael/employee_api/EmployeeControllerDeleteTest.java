@@ -75,7 +75,7 @@ public class EmployeeControllerDeleteTest {
 
     @Test
     @WithMockUser(username = "admin@example.com", roles = "ADMIN")
-    void deleteEmployee_withNonExistentId_shouldReturn404() throws Exception {
+    void deleteEmployee_withNonexistentId_shouldReturn404() throws Exception {
         mockMvc.perform(delete("/api/employees/999"))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message")

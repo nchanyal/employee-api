@@ -17,14 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.nathnael.employee_api.dto.EmployeeDto;
 import dev.nathnael.employee_api.service.EmployeeService;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/api/employees")
 public class EmployeeController {
     
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
+
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
 
     @PostMapping
     public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody EmployeeDto employeeDto){

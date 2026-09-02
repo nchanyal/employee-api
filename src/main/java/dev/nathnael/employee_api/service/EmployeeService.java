@@ -1,6 +1,6 @@
 package dev.nathnael.employee_api.service;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 import dev.nathnael.employee_api.dto.EmployeeDto;
 
@@ -9,7 +9,7 @@ public interface EmployeeService {
 
     EmployeeDto getEmployeeById(Long employeeId);
 
-    List<EmployeeDto> getAllEmployees();
+    Page<EmployeeDto> getAllEmployees(int pageNumber, int pageSize);
 
     EmployeeDto updateEmployee(Long employeeId, EmployeeDto updatedEmployee);
 

@@ -1,9 +1,9 @@
 package dev.nathnael.employee_api.service.impl;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import dev.nathnael.employee_api.dto.EmployeeDto;
@@ -38,9 +38,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeDto> getAllEmployees() {
-        List<Employee> employees = employeeRepository.findAll();
-        return employees.stream().map((employee) -> EmployeeMapper.mapToEmployeeDto(employee)).collect(Collectors.toList());
+    public Page<EmployeeDto> getAllEmployees(int pageNumber, int pageSize) {
+
+        PageRequest request = PageRequest.of(pageNumber, pageSize);
+
+        Page<Employee> employees = employeeRepository.findAll(request);
+
+        return employees.map(employee -> EmployeeMapper.mapToEmployeeDto(employee));
     }
 
     @Override

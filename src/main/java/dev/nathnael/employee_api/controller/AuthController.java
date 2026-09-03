@@ -50,8 +50,8 @@ public class AuthController {
         return new ResponseEntity<>(new LoginResponseDto(token), HttpStatus.OK);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
     public void registerUser(@Valid @RequestBody CreateUserDto createUserDto) {
         userService.registerUser(createUserDto);
     }

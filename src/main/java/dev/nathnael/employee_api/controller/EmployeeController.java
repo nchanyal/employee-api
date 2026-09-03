@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.nathnael.employee_api.dto.EmployeeDto;
 import dev.nathnael.employee_api.service.EmployeeService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
 @RestController
@@ -29,6 +30,7 @@ public class EmployeeController {
     }
 
     @PostMapping
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody EmployeeDto employeeDto){
         EmployeeDto savedEmployeeDto = employeeService.createEmployee(employeeDto);
         return new ResponseEntity<>(savedEmployeeDto, HttpStatus.CREATED);
@@ -50,6 +52,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<EmployeeDto> updateEmployee(
         @PathVariable("id") Long employeeId, 
         @Valid @RequestBody EmployeeDto updatedEmployeeDto
@@ -58,8 +61,9 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeDto, HttpStatus.OK);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @SecurityRequirement(name = "bearerAuth")
     public void deleteEmployee(@PathVariable("id") Long employeeId){
         employeeService.deleteEmployee(employeeId);
     }

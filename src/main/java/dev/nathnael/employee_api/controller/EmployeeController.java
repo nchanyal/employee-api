@@ -38,12 +38,14 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable("id") Long employeeId){
         EmployeeDto employeeDto = employeeService.getEmployeeById(employeeId);
         return new ResponseEntity<>(employeeDto, HttpStatus.OK);
     }
 
     @GetMapping
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<Page<EmployeeDto>> getAllEmployees(
         @RequestParam(defaultValue = "0") int page, 
         @RequestParam(defaultValue = "10") int size

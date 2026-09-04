@@ -13,13 +13,15 @@ import dev.nathnael.employee_api.exception.ResourceNotFoundException;
 import dev.nathnael.employee_api.mapper.EmployeeMapper;
 import dev.nathnael.employee_api.repository.EmployeeRepository;
 import dev.nathnael.employee_api.service.EmployeeService;
-import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
+
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
 
     @Override
     public EmployeeDto createEmployee(CreateEmployeeDto employeeDto) {

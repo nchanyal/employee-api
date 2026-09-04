@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import dev.nathnael.employee_api.dto.CreateEmployeeDto;
 import dev.nathnael.employee_api.dto.EmployeeDto;
 import dev.nathnael.employee_api.entity.Employee;
 import dev.nathnael.employee_api.exception.ResourceNotFoundException;
@@ -21,10 +22,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
 
     @Override
-    public EmployeeDto createEmployee(EmployeeDto employeeDto) {
+    public EmployeeDto createEmployee(CreateEmployeeDto employeeDto) {
 
         Employee employee = EmployeeMapper.mapToEmployee(employeeDto);
+
         Employee savedEmployee = employeeRepository.save(employee);
+        
         return EmployeeMapper.mapToEmployeeDto(savedEmployee);
     }
 
@@ -48,7 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto updateEmployee(Long employeeId, EmployeeDto updatedEmployeeDto) {
+    public EmployeeDto updateEmployee(Long employeeId, CreateEmployeeDto updatedEmployeeDto) {
         
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(
             () -> new ResourceNotFoundException("Employee does not exist with given id: " + employeeId)

@@ -1,5 +1,6 @@
 package dev.nathnael.employee_api.mapper;
 
+import dev.nathnael.employee_api.dto.CreateEmployeeDto;
 import dev.nathnael.employee_api.dto.EmployeeDto;
 import dev.nathnael.employee_api.entity.Employee;
 
@@ -18,7 +19,8 @@ public class EmployeeMapper {
         );
     }
 
-    public static Employee mapToEmployee(EmployeeDto employeeDto) {
+    public static Employee mapToEmployee(CreateEmployeeDto employeeDto) {
+        
         Employee employee = new Employee();
 
         employee.setFirstName(employeeDto.getFirstName());

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.nathnael.employee_api.dto.CreateEmployeeDto;
 import dev.nathnael.employee_api.dto.EmployeeDto;
 import dev.nathnael.employee_api.service.EmployeeService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -31,7 +32,7 @@ public class EmployeeController {
 
     @PostMapping
     @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody EmployeeDto employeeDto){
+    public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody CreateEmployeeDto employeeDto){
         EmployeeDto savedEmployeeDto = employeeService.createEmployee(employeeDto);
         return new ResponseEntity<>(savedEmployeeDto, HttpStatus.CREATED);
     }
@@ -55,7 +56,7 @@ public class EmployeeController {
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<EmployeeDto> updateEmployee(
         @PathVariable("id") Long employeeId, 
-        @Valid @RequestBody EmployeeDto updatedEmployeeDto
+        @Valid @RequestBody CreateEmployeeDto updatedEmployeeDto
     ){
         EmployeeDto employeeDto = employeeService.updateEmployee(employeeId, updatedEmployeeDto);
         return new ResponseEntity<>(employeeDto, HttpStatus.OK);

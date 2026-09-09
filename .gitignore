@@ -34,3 +34,5 @@ build/
 
 ### JWT keys ###
 src/main/resources/certs/
+
+.env

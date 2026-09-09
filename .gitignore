@@ -33,6 +33,6 @@ build/
 .vscode/
 
 ### JWT keys ###
-src/main/resources/certs/
+src/main/resources/certs/*.pem
 
 .env

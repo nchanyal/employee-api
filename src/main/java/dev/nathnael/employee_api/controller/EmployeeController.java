@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.nathnael.employee_api.dto.CreateEmployeeDto;
 import dev.nathnael.employee_api.dto.EmployeeDto;
 import dev.nathnael.employee_api.service.EmployeeService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 
@@ -30,6 +31,10 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    @Operation(
+        summary = "Create an employee",
+        description = "Creates a new employee. Requires ADMIN role."
+    )
     @SecurityRequirement(name = "bearerAuth")
     @PostMapping
     public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody CreateEmployeeDto employeeDto){
@@ -37,6 +42,10 @@ public class EmployeeController {
         return new ResponseEntity<>(savedEmployeeDto, HttpStatus.CREATED);
     }
 
+    @Operation(
+        summary = "Get an employee",
+        description = "Retrieves an employee by ID. Requires authentication."
+    )
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable("id") Long employeeId){
@@ -44,6 +53,10 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeDto, HttpStatus.OK);
     }
 
+    @Operation(
+        summary = "Get all employees",
+        description = "Retrieves a paginated list of employees. Requires authentication."
+    )
     @SecurityRequirement(name = "bearerAuth")
     @GetMapping
     public ResponseEntity<Page<EmployeeDto>> getAllEmployees(
@@ -54,6 +67,10 @@ public class EmployeeController {
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
+    @Operation(
+        summary = "Update an employee",
+        description = "Updates an existing employee by ID. Requires ADMIN role."
+    )
     @SecurityRequirement(name = "bearerAuth")
     @PutMapping("/{id}")
     public ResponseEntity<EmployeeDto> updateEmployee(
@@ -64,8 +81,12 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeDto, HttpStatus.OK);
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(
+        summary = "Delete an employee",
+        description = "Deletes an employee by ID. Requires ADMIN role."
+    )
     @SecurityRequirement(name = "bearerAuth")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
     public void deleteEmployee(@PathVariable("id") Long employeeId){
         employeeService.deleteEmployee(employeeId);

@@ -16,6 +16,7 @@ import dev.nathnael.employee_api.dto.LoginRequestDto;
 import dev.nathnael.employee_api.dto.LoginResponseDto;
 import dev.nathnael.employee_api.service.TokenService;
 import dev.nathnael.employee_api.service.impl.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
@@ -29,12 +30,17 @@ public class AuthController {
     public AuthController(
             TokenService tokenService, 
             UserService userService, 
-            AuthenticationManager authenticationManager) {
+            AuthenticationManager authenticationManager
+        ) {
         this.tokenService = tokenService;
         this.userService = userService;
         this.authenticationManager = authenticationManager;
     }
 
+    @Operation(
+        summary = "Authenticate a user",
+        description = "Authenticates a user and returns a JWT token."
+    )
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto request) {
         
@@ -50,6 +56,10 @@ public class AuthController {
         return new ResponseEntity<>(new LoginResponseDto(token), HttpStatus.OK);
     }
 
+    @Operation(
+        summary = "Register a new user",
+        description = "Creates a new user account."
+    )
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register")
     public void registerUser(@Valid @RequestBody CreateUserDto createUserDto) {

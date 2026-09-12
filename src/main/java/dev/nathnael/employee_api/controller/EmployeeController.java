@@ -30,22 +30,22 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping
     @SecurityRequirement(name = "bearerAuth")
+    @PostMapping
     public ResponseEntity<EmployeeDto> createEmployee(@Valid @RequestBody CreateEmployeeDto employeeDto){
         EmployeeDto savedEmployeeDto = employeeService.createEmployee(employeeDto);
         return new ResponseEntity<>(savedEmployeeDto, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
     @SecurityRequirement(name = "bearerAuth")
+    @GetMapping("/{id}")
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable("id") Long employeeId){
         EmployeeDto employeeDto = employeeService.getEmployeeById(employeeId);
         return new ResponseEntity<>(employeeDto, HttpStatus.OK);
     }
 
-    @GetMapping
     @SecurityRequirement(name = "bearerAuth")
+    @GetMapping
     public ResponseEntity<Page<EmployeeDto>> getAllEmployees(
         @RequestParam(defaultValue = "0") int page, 
         @RequestParam(defaultValue = "10") int size
@@ -54,8 +54,8 @@ public class EmployeeController {
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
     @SecurityRequirement(name = "bearerAuth")
+    @PutMapping("/{id}")
     public ResponseEntity<EmployeeDto> updateEmployee(
         @PathVariable("id") Long employeeId, 
         @Valid @RequestBody CreateEmployeeDto updatedEmployeeDto
@@ -64,9 +64,9 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeDto, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @SecurityRequirement(name = "bearerAuth")
+    @DeleteMapping("/{id}")
     public void deleteEmployee(@PathVariable("id") Long employeeId){
         employeeService.deleteEmployee(employeeId);
     }
